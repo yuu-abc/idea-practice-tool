@@ -1,0 +1,25 @@
+{
+  "name": "アイデア出し練習ツール",
+  "short_name": "アイデア練習",
+  "description": "歴史・数学・物語のお題を使って、短時間で発想力を鍛えるアイデア出し練習ツール。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f4f0",
+  "theme_color": "#f5f4f0",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
