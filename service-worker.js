@@ -1,4 +1,4 @@
-const CACHE_NAME = 'idea-practice-tool-v3';
+const CACHE_NAME = 'idea-practice-tool-v4';
 const APP_SHELL = [
   './',
   './index.html',
