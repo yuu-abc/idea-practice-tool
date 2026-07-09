@@ -152,5 +152,48 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<style id="stock-manager-enhancement">
+  .stock-filter-row { margin-bottom: 10px; }
+  .stock-controls { grid-template-columns: minmax(0, 1fr) 132px 132px; }
+  .status-badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; display: inline-block; white-space: nowrap; }
+  .status-inbox { background: #eef1f4; color: #4b5563; }
+  .status-developing { background: #fff3cd; color: #7a5300; }
+  .status-done { background: #dff0d8; color: #1a5c2a; }
+  .status-archived { background: #e8e8e8; color: #666; }
+  .card-status { width: auto; min-height: 32px; max-width: 112px; font-size: 12px; padding: 4px 6px; }
+  .load-more-row { display: flex; justify-content: center; margin-top: 14px; }
+  @media (max-width: 560px) { .stock-controls { grid-template-columns: 1fr; } }
+</style>
+<script>
+const STOCK_STATUS={inbox:'未整理',developing:'育成中',done:'実行済み',archived:'アーカイブ'};
+function normalizeStockStatus(value){const legacy={'未整理':'inbox','育成中':'developing','実行済み':'done','アーカイブ':'archived'};return STOCK_STATUS[value]?value:(legacy[value]||'inbox');}
+function addStockStatusControl(prefix){const rating=document.getElementById(prefix+'-rating');if(!rating||document.getElementById(prefix+'-status'))return;const row=document.createElement('div');row.className='form-row';row.innerHTML='<div class="label">状態</div><select id="'+prefix+'-status"><option value="inbox">未整理</option><option value="developing">育成中</option><option value="done">実行済み</option><option value="archived">アーカイブ</option></select>';rating.closest('.form-row').insertAdjacentElement('beforebegin',row);document.getElementById(prefix+'-status').addEventListener('change',scheduleDraftSave);}
+function installStockManagementControls(){const filters=document.getElementById('stock-filters');if(filters&&!document.getElementById('stock-status-filters'))filters.parentElement.insertAdjacentHTML('afterend','<div class="stock-filter-row"><div class="label">状態</div><div id="stock-status-filters" style="display:flex;gap:4px;flex-wrap:wrap;"></div></div>');const controls=document.querySelector('#panel-stock .stock-controls');if(controls&&!document.getElementById('stock-month'))controls.insertAdjacentHTML('beforeend','<select id="stock-month" aria-label="月で絞り込む" onchange="setStockMonth(this.value)"><option value="all">すべての月</option></select>');}
+addStockStatusControl('idea');addStockStatusControl('cross');installStockManagementControls();
+stock=stock.map(item=>Object.assign(item,{status:normalizeStockStatus(item.status)}));persist();
+let stockStatusFilter='active',stockMonthFilter='all',stockVisibleCount=30;
+const originalInitButtons=initButtons,originalFormValues=formValues,originalSetFormValues=setFormValues,originalCardFrom=cardFrom,originalClearForm=clearForm;
+formValues=function(prefix){const values=originalFormValues(prefix);values.status=document.getElementById(prefix+'-status').value;return values;};
+setFormValues=function(prefix,values){originalSetFormValues(prefix,values);if(values&&values.status!==undefined)document.getElementById(prefix+'-status').value=normalizeStockStatus(values.status);};
+cardFrom=function(prefix,category,prompt){const card=originalCardFrom(prefix,category,prompt);card.status=normalizeStockStatus(document.getElementById(prefix+'-status').value);return card;};
+clearForm=function(prefix){originalClearForm(prefix);document.getElementById(prefix+'-status').value='inbox';};
+function renderStockStatusFilters(){const root=document.getElementById('stock-status-filters');if(!root)return;root.innerHTML=[['active','通常'],['all','すべて'],['inbox','未整理'],['developing','育成中'],['done','実行済み'],['archived','アーカイブ']].map(pair=>'<button class="tab-btn '+(pair[0]===stockStatusFilter?'active':'')+'" onclick="filterStockStatus(\''+pair[0]+'\')">'+pair[1]+'</button>').join('');}
+initButtons=function(){originalInitButtons();renderStockStatusFilters();};
+function stockMonthKey(item){const match=String(item.date||'').match(/(\d{4})[\/.-](\d{1,2})/);return match?match[1]+'-'+String(match[2]).padStart(2,'0'):'';}
+function stockMonthLabel(key){const match=String(key).match(/^(\d{4})-(\d{2})$/);return match?match[1]+'年'+Number(match[2])+'月':'日付未設定';}
+function renderStockMonths(){const select=document.getElementById('stock-month');if(!select)return;const months=[...new Set(stock.map(stockMonthKey).filter(Boolean))].sort().reverse();if(stockMonthFilter!=='all'&&!months.includes(stockMonthFilter))stockMonthFilter='all';select.innerHTML='<option value="all">すべての月</option>'+months.map(month=>'<option value="'+month+'">'+stockMonthLabel(month)+'</option>').join('');select.value=stockMonthFilter;}
+function getManagedStock(){let items=sf==='all'?stock.slice():stock.filter(item=>item.category===sf);if(stockStatusFilter==='active')items=items.filter(item=>normalizeStockStatus(item.status)!=='archived');else if(stockStatusFilter!=='all')items=items.filter(item=>normalizeStockStatus(item.status)===stockStatusFilter);if(stockMonthFilter!=='all')items=items.filter(item=>stockMonthKey(item)===stockMonthFilter);if(stockQuery){const terms=stockQuery.replace(/#/g,'').split(/\s+/).filter(Boolean);items=items.filter(item=>{const target=[item.title,item.prompt,item.idea,FIELDS[item.category],STOCK_STATUS[normalizeStockStatus(item.status)],tags(item.tags).join(' '),item.useCase,item.nextAction,item.date].join(' ').toLocaleLowerCase();return terms.every(term=>target.includes(term));});}const titleOrder=(a,b)=>String(a.title||'').localeCompare(String(b.title||''),'ja');if(stockSort==='oldest')items.sort((a,b)=>stockTime(a)-stockTime(b));else if(stockSort==='rating')items.sort((a,b)=>(+b.rating||0)-(+a.rating||0)||stockTime(b)-stockTime(a));else if(stockSort==='title')items.sort(titleOrder);else items.sort((a,b)=>stockTime(b)-stockTime(a));return items;}
+function stockStatusBadge(value){const status=normalizeStockStatus(value);return '<span class="status-badge status-'+status+'">'+STOCK_STATUS[status]+'</span>';}
+function stockStatusOptions(value){const status=normalizeStockStatus(value);return Object.keys(STOCK_STATUS).map(key=>'<option value="'+key+'"'+(key===status?' selected':'')+'>'+STOCK_STATUS[key]+'</option>').join('');}
+function updateCardStatus(id,value){if(!STOCK_STATUS[value])return;const card=stock.find(item=>item.id===id);if(!card)return;card.status=value;persist();renderStock();}
+filterStock=function(value){sf=value;stockVisibleCount=30;initButtons();renderStock();};
+filterStockStatus=function(value){stockStatusFilter=value;stockVisibleCount=30;initButtons();renderStock();};
+updateStockQuery=function(value){stockQuery=value.trim().toLocaleLowerCase();stockVisibleCount=30;renderStock();};
+setStockSort=function(value){stockSort=value;stockVisibleCount=30;renderStock();};
+setStockMonth=function(value){stockMonthFilter=value;stockVisibleCount=30;renderStock();};
+loadMoreStock=function(){stockVisibleCount+=30;renderStock();};
+renderStock=function(){renderStockMonths();const allItems=getManagedStock(),items=allItems.slice(0,stockVisibleCount),count=document.getElementById('stock-count'),list=document.getElementById('stock-list');count.textContent=allItems.length+'件中 '+items.length+'件表示';if(!allItems.length){list.innerHTML='<div class="empty">条件に合うアイデアがありません。<br>検索条件を変えるか、練習モードで保存してみましょう。</div>';return;}list.innerHTML='<div class="stock-grid">'+items.map(item=>'<div class="stock-item"><div class="stock-head"><div><div class="stock-title">'+esc(item.title)+'</div><div>'+badge(item.category)+' '+stockStatusBadge(item.status)+' '+tags(item.tags).map(tag=>'<span class="tag">#'+esc(tag)+'</span>').join('')+'</div></div><div class="btn-row" style="margin-top:0;"><select class="card-status" aria-label="カードの状態" onchange="updateCardStatus(\''+item.id+'\',this.value)">'+stockStatusOptions(item.status)+'</select><button class="action" onclick="editCard(\''+item.id+'\')">編集</button><button class="action danger" onclick="deleteCard(\''+item.id+'\')">削除</button></div></div><div class="stock-meta">お題：'+esc(item.prompt)+'</div><div class="stock-item-text clamped">'+esc(item.idea)+'</div><button class="text-toggle" type="button" aria-expanded="false" onclick="toggleIdeaBody(this)">全文を表示</button><div class="stock-meta">使い道：'+esc(item.useCase||'未設定')+'<br>次に見るもの：'+esc(item.nextAction||'未設定')+'<br>日付：'+esc(item.date)+'　評価：'+stars(item.rating)+'</div></div>').join('')+'</div>'+(allItems.length>items.length?'<div class="load-more-row"><button class="action" type="button" onclick="loadMoreStock()">さらに30件読み込む</button></div>':'');updateIdeaPreviewButtons();};
+initButtons();
+</script>
 </body>
 </html>
