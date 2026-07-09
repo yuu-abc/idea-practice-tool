@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>アイデア出し練習ツール</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; }
+  .header { background: #fff; border-bottom: 0.5px solid #ddd; padding: 14px 16px; position: sticky; top: 0; z-index: 10; }
+  .header h1 { font-size: 16px; font-weight: 500; }
+  .header p { font-size: 12px; color: #888; margin-top: 2px; }
+  .container { max-width: 600px; margin: 0 auto; padding: 16px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn { background: #fff; border: 0.5px solid #ccc; border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer; color: #555; }
+  .tab-btn.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; font-weight: 500; }
+  .card { background: #fff; border-radius: 12px; border: 0.5px solid #e0e0e0; padding: 16px; margin-bottom: 12px; }
+  .label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .prompt-box { background: #f5f4f0; border-radius: 8px; padding: 12px 14px; font-size: 15px; font-weight: 500; min-height: 48px; display: flex; align-items: center; margin-bottom: 12px; line-height: 1.5; }
+  .hint-box { font-size: 13px; color: #666; background: #f5f4f0; border-left: 3px solid #ccc; padding: 8px 12px; border-radius: 0 8px 8px 0; margin-bottom: 14px; line-height: 1.5; }
+  textarea { width: 100%; min-height: 120px; font-size: 14px; padding: 10px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; color: #1a1a1a; resize: vertical; font-family: inherit; line-height: 1.6; }
+  textarea:focus { outline: none; border-color: #888; }
+  .count { font-size: 11px; color: #aaa; text-align: right; margin-top: 4px; }
+  .btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  button.action { background: #fff; border: 0.5px solid #bbb; border-radius: 8px; padding: 9px 14px; font-size: 13px; cursor: pointer; color: #333; }
+  button.action:hover { background: #f5f4f0; }
+  button.action.primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .timer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .timer-num { font-size: 24px; font-weight: 500; min-width: 60px; }
+  .timer-num.running { color: #c0392b; }
+  select { font-size: 13px; padding: 7px 10px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; color: #333; }
+  .stock-item { padding: 12px; background: #f9f9f7; border-radius: 8px; border: 0.5px solid #e8e8e8; margin-bottom: 8px; }
+  .stock-item-text { font-size: 14px; line-height: 1.5; margin: 4px 0; }
+  .stock-meta { font-size: 11px; color: #aaa; margin-top: 4px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; display: inline-block; }
+  .badge-h { background: #dceefb; color: #1a5276; }
+  .badge-m { background: #dff0d8; color: #1a5c2a; }
+  .badge-s { background: #fef9e7; color: #7d6608; }
+  .badge-c { background: #fce4ec; color: #6a1b3a; }
+  .empty { text-align: center; color: #aaa; font-size: 14px; padding: 2rem 0; line-height: 1.8; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .field-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+  .cross-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .saved-notice { background: #dff0d8; color: #1a5c2a; border-radius: 8px; padding: 8px 14px; font-size: 13px; margin-top: 8px; display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>アイデア出し練習ツール</h1>
+  <p>歴史・数学・物語の3分野でアイデアを鍛える</p>
+</div>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('practice')">練習モード</button>
+    <button class="tab-btn" onclick="switchTab('stock')">アイデアストック</button>
+    <button class="tab-btn" onclick="switchTab('cross')">クロスオーバー</button>
+  </div>
+
+  <!-- 練習モード -->
+  <div id="panel-practice" class="panel active">
+    <div class="card">
+      <div class="field-tabs">
+        <button class="tab-btn active" id="btn-h" onclick="setField('history')">歴史</button>
+        <button class="tab-btn" id="btn-m" onclick="setField('math')">数学</button>
+        <button class="tab-btn" id="btn-s" onclick="setField('story')">物語</button>
+      </div>
+      <div class="label">今日のお題</div>
+      <div class="prompt-box" id="prompt-text">分野を選ぶとお題が表示されます</div>
+      <div class="hint-box" id="hint-text">上のボタンで分野を選んでください。</div>
+
+      <div class="timer-row">
+        <div>
+          <div class="label">タイマー</div>
+          <div class="timer-num" id="timer-disp">5:00</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <button class="action" id="timer-btn" onclick="toggleTimer()">スタート</button>
+          <select onchange="setDuration(this.value)">
+            <option value="300">5分</option>
+            <option value="180">3分</option>
+            <option value="600">10分</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="label">アイデアを書く</div>
+      <textarea id="idea-input" placeholder="思いついたことを自由に書いてください。良し悪しは気にせずどんどん書きましょう！"></textarea>
+      <div class="count" id="char-count">0文字</div>
+      <div class="btn-row">
+        <button class="action" onclick="generatePrompt()">お題を変える</button>
+        <button class="action primary" onclick="saveIdea()">ストックに保存</button>
+      </div>
+      <div class="saved-notice" id="save-notice">ストックに保存しました！</div>
+    </div>
+  </div>
+
+  <!-- アイデアストック -->
+  <div id="panel-stock" class="panel">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
+        <div class="label" id="stock-count" style="margin:0;">0件</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
+          <button class="tab-btn active" id="sf-all" onclick="filterStock('all')">すべて</button>
+          <button class="tab-btn" id="sf-h" onclick="filterStock('history')">歴史</button>
+          <button class="tab-btn" id="sf-m" onclick="filterStock('math')">数学</button>
+          <button class="tab-btn" id="sf-s" onclick="filterStock('story')">物語</button>
+          <button class="tab-btn" id="sf-c" onclick="filterStock('cross')">クロス</button>
+        </div>
+      </div>
+      <div id="stock-list"><div class="empty">まだアイデアがありません。<br>練習モードで保存してみましょう。</div></div>
+    </div>
+    <div class="btn-row">
+      <button class="action" onclick="exportStock()">テキストでエクスポート</button>
+      <button class="action" onclick="clearStock()" style="color:#c0392b;">ストックを消去</button>
+    </div>
+  </div>
+
+  <!-- クロスオーバー -->
+  <div id="panel-cross" class="panel">
+    <div class="card">
+      <div class="hint-box">2つの分野を掛け合わせたお題で、意外な発想を鍛えましょう。</div>
+      <div class="cross-btns">
+        <button class="action" onclick="genCross('history','math')">歴史 × 数学</button>
+        <button class="action" onclick="genCross('history','story')">歴史 × 物語</button>
+        <button class="action" onclick="genCross('math','story')">数学 × 物語</button>
+        <button class="action primary" onclick="genCross('rand','rand')">ランダム</button>
+      </div>
+      <div class="label">クロスオーバーお題</div>
+      <div class="prompt-box" id="cross-prompt">上のボタンを押して生成してください</div>
+      <div class="hint-box" id="cross-hint"></div>
+      <textarea id="cross-input" placeholder="このお題でアイデアを書いてみましょう..."></textarea>
+      <div class="btn-row">
+        <button class="action primary" onclick="saveCross()">ストックに保存</button>
+      </div>
+      <div class="saved-notice" id="cross-save-notice">ストックに保存しました！</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const P = {
+  history: [
+    { text:"もし織田信長がSNSを使えたら？", hint:"現代のメディアと歴史的人物の価値観を掛け合わせてみましょう。" },
+    { text:"江戸時代の「働き方改革」を考えるとしたら？", hint:"当時の社会構造から現代への応用アイデアを探しましょう。" },
+    { text:"ペリー来航がなかったら日本はどうなっていた？", hint:"分岐点から先の可能性を複数挙げてみましょう。" },
+    { text:"古代ローマの「道路網」から学べるビジネスアイデアは？", hint:"インフラの概念を別ジャンルに応用してみましょう。" },
+    { text:"歴史上の失敗から生まれた発明・発見を3つ考えよう", hint:"失敗＝資産という視点でアイデアを展開しましょう。" },
+    { text:"明治維新を「スタートアップ」として分析すると？", hint:"経営・組織・変革のキーワードで歴史を読み直しましょう。" },
+  ],
+  math: [
+    { text:"日常生活の中で「フィボナッチ数列」を見つけよう", hint:"自然・建築・デザインなど複数の領域から探してみましょう。" },
+    { text:"「1%の改善を365日続けると？」を物語にする", hint:"複利の概念を人間の成長に当てはめてみましょう。" },
+    { text:"通勤時間を確率論で最適化するアイデアを出そう", hint:"変数（電車・天気・混雑）を整理して考えましょう。" },
+    { text:"「80対20の法則」を使って仕事を効率化する方法は？", hint:"あなたの職場の20%が80%の成果を生む部分はどこ？" },
+    { text:"統計のウソを見抜くための習慣を考えよう", hint:"平均・中央値・外れ値など基本概念から考えてみましょう。" },
+    { text:"人生の意思決定に「期待値」を使うとしたら？", hint:"リスクとリターンをどう数値化するか考えましょう。" },
+  ],
+  story: [
+    { text:"「最初の一行」だけ書く：見知らぬ場所で目が覚めた主人公", hint:"読者を引き込む最初の一文に集中。設定より感情が先。" },
+    { text:"あなたの通勤ルートを「英雄の旅」として再解釈する", hint:"日常の中の障害・助力者・変容を見つけましょう。" },
+    { text:"対立する2人のキャラクターが共通点を発見する場面を書く", hint:"葛藤→発見→変化という構造を意識して書きましょう。" },
+    { text:"物の視点（椅子・スマホ・財布）から一日を語る", hint:"視点を変えると新しい物語が生まれます。" },
+    { text:"3つの無関係な言葉を使って短い話を作ろう（傘・地図・音楽）", hint:"制約があるほど創造性は刺激されます。" },
+    { text:"結末から始まる物語の冒頭を書いてみよう", hint:"「こうして私は〇〇になった」という文から逆算して構造を考えましょう。" },
+  ]
+};
+const CP = {
+  'history-math': [
+    { text:"モンゴル帝国の領土拡大速度を数式で表すと何がわかる？", hint:"地理・時間・人口を変数として面白い法則を探しましょう。" },
+    { text:"江戸幕府の財政赤字を現代の経済指標で分析するとどうなる？", hint:"歴史の数字を現代の文脈に置き換えてみましょう。" },
+  ],
+  'history-story': [
+    { text:"坂本龍馬が現代のベンチャー企業を立ち上げたら？", hint:"当時の志・方法論を現代に翻訳してみましょう。" },
+    { text:"歴史上の転換点で「もし別の選択をしたら」という短編を書く", hint:"感情と論理の両方から人物の決断を描きましょう。" },
+  ],
+  'math-story': [
+    { text:"素数の孤独をテーマにした詩または短編を書く", hint:"数学的概念を人間の感情メタファーとして使いましょう。" },
+    { text:"「確率50%の選択」を繰り返す主人公の人生を描く", hint:"ランダム性と意志の関係を物語で表現しましょう。" },
+  ]
+};
+
+let field = 'history', curP = null;
+let dur = 300, rem = 300, running = false, iv = null;
+let stock = JSON.parse(localStorage.getItem('idea_stock') || '[]');
+let sf = 'all';
+
+function rand(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function switchTab(t) {
+  ['practice','stock','cross'].forEach(p => {
+    document.getElementById('panel-'+p).classList.toggle('active', p===t);
+  });
+  document.querySelectorAll('.tabs .tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['practice','stock','cross'][i]===t);
+  });
+  if(t==='stock') renderStock();
+}
+
+function setField(f) {
+  field = f;
+  ['h','m','s'].forEach(x => document.getElementById('btn-'+x).classList.remove('active'));
+  document.getElementById('btn-'+(f==='history'?'h':f==='math'?'m':'s')).classList.add('active');
+  generatePrompt();
+}
+
+function generatePrompt() {
+  curP = rand(P[field]);
+  document.getElementById('prompt-text').textContent = curP.text;
+  document.getElementById('hint-text').textContent = curP.hint;
+  document.getElementById('idea-input').value = '';
+  document.getElementById('char-count').textContent = '0文字';
+}
+
+document.getElementById('idea-input').addEventListener('input', function() {
+  document.getElementById('char-count').textContent = this.value.length+'文字';
+});
+
+function setDuration(v) {
+  dur = parseInt(v); rem = dur; running = false;
+  clearInterval(iv);
+  document.getElementById('timer-btn').textContent = 'スタート';
+  document.getElementById('timer-disp').className = 'timer-num';
+  updateDisp();
+}
+
+function toggleTimer() {
+  if(running) {
+    clearInterval(iv); running = false;
+    document.getElementById('timer-btn').textContent = 'スタート';
+    document.getElementById('timer-disp').className = 'timer-num';
+  } else {
+    if(rem <= 0) rem = dur;
+    running = true;
+    document.getElementById('timer-btn').textContent = '停止';
+    document.getElementById('timer-disp').className = 'timer-num running';
+    iv = setInterval(() => {
+      rem--;
+      updateDisp();
+      if(rem <= 0) {
+        clearInterval(iv); running = false;
+        document.getElementById('timer-btn').textContent = 'スタート';
+        document.getElementById('timer-disp').className = 'timer-num';
+        rem = 0;
+        if(navigator.vibrate) navigator.vibrate([200,100,200]);
+      }
+    }, 1000);
+  }
+}
+
+function updateDisp() {
+  const m = Math.floor(rem/60), s = rem%60;
+  document.getElementById('timer-disp').textContent = m+':'+(s<10?'0':'')+s;
+}
+
+function showNotice(id) {
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 2000);
+}
+
+function saveIdea() {
+  const text = document.getElementById('idea-input').value.trim();
+  if(!text) { alert('アイデアを入力してください'); return; }
+  stock.push({ field, prompt: curP ? curP.text : '', text, date: new Date().toLocaleDateString('ja-JP') });
+  localStorage.setItem('idea_stock', JSON.stringify(stock));
+  document.getElementById('idea-input').value = '';
+  document.getElementById('char-count').textContent = '0文字';
+  showNotice('save-notice');
+}
+
+function saveCross() {
+  const text = document.getElementById('cross-input').value.trim();
+  if(!text) { alert('アイデアを入力してください'); return; }
+  const prompt = document.getElementById('cross-prompt').textContent;
+  stock.push({ field:'cross', prompt, text, date: new Date().toLocaleDateString('ja-JP') });
+  localStorage.setItem('idea_stock', JSON.stringify(stock));
+  document.getElementById('cross-input').value = '';
+  showNotice('cross-save-notice');
+}
+
+function filterStock(f) {
+  sf = f;
+  ['all','h','m','s','c'].forEach(x => document.getElementById('sf-'+x).classList.remove('active'));
+  document.getElementById('sf-'+(f==='all'?'all':f==='history'?'h':f==='math'?'m':f==='cross'?'c':'s')).classList.add('active');
+  renderStock();
+}
+
+function renderStock() {
+  const list = sf==='all' ? stock : stock.filter(s=>s.field===sf);
+  document.getElementById('stock-count').textContent = list.length+'件保存済み';
+  const el = document.getElementById('stock-list');
+  if(!list.length) { el.innerHTML='<div class="empty">まだアイデアがありません。<br>練習モードで保存してみましょう。</div>'; return; }
+  el.innerHTML = list.slice().reverse().map(s => {
+    const b = s.field==='history'?'<span class="badge badge-h">歴史</span>':s.field==='math'?'<span class="badge badge-m">数学</span>':s.field==='cross'?'<span class="badge badge-c">クロス</span>':'<span class="badge badge-s">物語</span>';
+    return '<div class="stock-item">'+b+'<div class="stock-item-text">'+esc(s.text)+'</div><div class="stock-meta">お題：'+esc(s.prompt)+' · '+s.date+'</div></div>';
+  }).join('');
+}
+
+function exportStock() {
+  if(!stock.length) { alert('保存されたアイデアがありません'); return; }
+  const txt = stock.map(s=>'['+s.field+'] '+s.date+'\nお題：'+s.prompt+'\n'+s.text).join('\n\n---\n\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download = 'ideas_'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+}
+
+function clearStock() {
+  if(!confirm('全てのアイデアを削除しますか？')) return;
+  stock = [];
+  localStorage.setItem('idea_stock', JSON.stringify(stock));
+  renderStock();
+}
+
+function genCross(a, b) {
+  const keys = Object.keys(CP);
+  const key = (a==='rand') ? rand(keys) : a+'-'+b;
+  const p = rand(CP[key]);
+  document.getElementById('cross-prompt').textContent = p.text;
+  document.getElementById('cross-hint').textContent = p.hint;
+  document.getElementById('cross-input').value = '';
+}
+
+generatePrompt();
+</script>
+</body>
+</html>
