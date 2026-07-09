@@ -10,371 +10,107 @@
   .header { background: #fff; border-bottom: 0.5px solid #ddd; padding: 14px 16px; position: sticky; top: 0; z-index: 10; }
   .header h1 { font-size: 16px; font-weight: 500; }
   .header p { font-size: 12px; color: #888; margin-top: 2px; }
-  .container { max-width: 600px; margin: 0 auto; padding: 16px; }
-  .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-  .tab-btn { background: #fff; border: 0.5px solid #ccc; border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer; color: #555; }
+  .container { max-width: 720px; margin: 0 auto; padding: 16px; }
+  .tabs, .field-tabs, .cross-btns { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab-btn { background: #fff; border: 0.5px solid #ccc; border-radius: 8px; padding: 7px 12px; font-size: 13px; cursor: pointer; color: #555; }
   .tab-btn.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; font-weight: 500; }
   .card { background: #fff; border-radius: 12px; border: 0.5px solid #e0e0e0; padding: 16px; margin-bottom: 12px; }
   .label { font-size: 11px; color: #888; margin-bottom: 4px; }
   .prompt-box { background: #f5f4f0; border-radius: 8px; padding: 12px 14px; font-size: 15px; font-weight: 500; min-height: 48px; display: flex; align-items: center; margin-bottom: 12px; line-height: 1.5; }
   .hint-box { font-size: 13px; color: #666; background: #f5f4f0; border-left: 3px solid #ccc; padding: 8px 12px; border-radius: 0 8px 8px 0; margin-bottom: 14px; line-height: 1.5; }
-  textarea { width: 100%; min-height: 120px; font-size: 14px; padding: 10px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; color: #1a1a1a; resize: vertical; font-family: inherit; line-height: 1.6; }
-  textarea:focus { outline: none; border-color: #888; }
+  textarea, input, select { font-family: inherit; }
+  textarea, input[type="text"] { width: 100%; font-size: 14px; padding: 10px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; color: #1a1a1a; }
+  textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+  textarea:focus, input:focus, select:focus { outline: none; border-color: #888; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .form-row { margin-bottom: 10px; }
   .count { font-size: 11px; color: #aaa; text-align: right; margin-top: 4px; }
   .btn-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   button.action { background: #fff; border: 0.5px solid #bbb; border-radius: 8px; padding: 9px 14px; font-size: 13px; cursor: pointer; color: #333; }
   button.action:hover { background: #f5f4f0; }
   button.action.primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  button.action.danger { color: #c0392b; }
   .timer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
   .timer-num { font-size: 24px; font-weight: 500; min-width: 60px; }
   .timer-num.running { color: #c0392b; }
   select { font-size: 13px; padding: 7px 10px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; color: #333; }
-  .stock-item { padding: 12px; background: #f9f9f7; border-radius: 8px; border: 0.5px solid #e8e8e8; margin-bottom: 8px; }
-  .stock-item-text { font-size: 14px; line-height: 1.5; margin: 4px 0; }
-  .stock-meta { font-size: 11px; color: #aaa; margin-top: 4px; }
-  .badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; display: inline-block; }
-  .badge-h { background: #dceefb; color: #1a5276; }
-  .badge-m { background: #dff0d8; color: #1a5c2a; }
-  .badge-s { background: #fef9e7; color: #7d6608; }
-  .badge-c { background: #fce4ec; color: #6a1b3a; }
+  .stock-grid { display: grid; gap: 10px; }
+  .stock-item { padding: 14px; background: #f9f9f7; border-radius: 10px; border: 0.5px solid #e8e8e8; }
+  .stock-head { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
+  .stock-title { font-size: 16px; font-weight: 600; line-height: 1.4; }
+  .stock-item-text { font-size: 14px; line-height: 1.6; margin: 8px 0; white-space: pre-wrap; }
+  .stock-meta { font-size: 12px; color: #777; margin-top: 6px; line-height: 1.6; }
+  .tag { font-size: 11px; padding: 2px 7px; border-radius: 999px; background: #ecebea; color: #555; display: inline-block; margin: 3px 4px 0 0; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; display: inline-block; white-space: nowrap; }
+  .badge-history { background: #dceefb; color: #1a5276; }
+  .badge-math { background: #dff0d8; color: #1a5c2a; }
+  .badge-story { background: #fef9e7; color: #7d6608; }
+  .badge-work { background: #eee3ff; color: #4a2d7a; }
+  .badge-society { background: #e0f4f1; color: #17645d; }
+  .badge-values { background: #fdebd0; color: #7e5109; }
+  .badge-cross { background: #fce4ec; color: #6a1b3a; }
   .empty { text-align: center; color: #aaa; font-size: 14px; padding: 2rem 0; line-height: 1.8; }
   .panel { display: none; }
   .panel.active { display: block; }
-  .field-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
-  .cross-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
   .saved-notice { background: #dff0d8; color: #1a5c2a; border-radius: 8px; padding: 8px 14px; font-size: 13px; margin-top: 8px; display: none; }
+  @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } .stock-head { flex-direction: column; } }
 </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>アイデア出し練習ツール</h1>
-  <p>歴史・数学・物語の3分野でアイデアを鍛える</p>
-</div>
-
+<div class="header"><h1>アイデア出し練習ツール</h1><p>アイデアをカードとして保存し、あとから見返して育てる</p></div>
 <div class="container">
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('practice')">練習モード</button>
-    <button class="tab-btn" onclick="switchTab('stock')">アイデアストック</button>
-    <button class="tab-btn" onclick="switchTab('cross')">クロスオーバー</button>
-  </div>
-
-  <!-- 練習モード -->
-  <div id="panel-practice" class="panel active">
-    <div class="card">
-      <div class="field-tabs">
-        <button class="tab-btn active" id="btn-h" onclick="setField('history')">歴史</button>
-        <button class="tab-btn" id="btn-m" onclick="setField('math')">数学</button>
-        <button class="tab-btn" id="btn-s" onclick="setField('story')">物語</button>
-      </div>
-      <div class="label">今日のお題</div>
-      <div class="prompt-box" id="prompt-text">分野を選ぶとお題が表示されます</div>
-      <div class="hint-box" id="hint-text">上のボタンで分野を選んでください。</div>
-
-      <div class="timer-row">
-        <div>
-          <div class="label">タイマー</div>
-          <div class="timer-num" id="timer-disp">5:00</div>
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-          <button class="action" id="timer-btn" onclick="toggleTimer()">スタート</button>
-          <select onchange="setDuration(this.value)">
-            <option value="300">5分</option>
-            <option value="180">3分</option>
-            <option value="600">10分</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="label">アイデアを書く</div>
-      <textarea id="idea-input" placeholder="思いついたことを自由に書いてください。良し悪しは気にせずどんどん書きましょう！"></textarea>
-      <div class="count" id="char-count">0文字</div>
-      <div class="btn-row">
-        <button class="action" onclick="generatePrompt()">お題を変える</button>
-        <button class="action primary" onclick="saveIdea()">ストックに保存</button>
-      </div>
-      <div class="saved-notice" id="save-notice">ストックに保存しました！</div>
-    </div>
-  </div>
-
-  <!-- アイデアストック -->
-  <div id="panel-stock" class="panel">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
-        <div class="label" id="stock-count" style="margin:0;">0件</div>
-        <div style="display:flex;gap:4px;flex-wrap:wrap;">
-          <button class="tab-btn active" id="sf-all" onclick="filterStock('all')">すべて</button>
-          <button class="tab-btn" id="sf-h" onclick="filterStock('history')">歴史</button>
-          <button class="tab-btn" id="sf-m" onclick="filterStock('math')">数学</button>
-          <button class="tab-btn" id="sf-s" onclick="filterStock('story')">物語</button>
-          <button class="tab-btn" id="sf-c" onclick="filterStock('cross')">クロス</button>
-        </div>
-      </div>
-      <div id="stock-list"><div class="empty">まだアイデアがありません。<br>練習モードで保存してみましょう。</div></div>
-    </div>
-    <div class="btn-row">
-      <button class="action" onclick="exportStock()">テキストでエクスポート</button>
-      <button class="action" onclick="clearStock()" style="color:#c0392b;">ストックを消去</button>
-    </div>
-  </div>
-
-  <!-- クロスオーバー -->
-  <div id="panel-cross" class="panel">
-    <div class="card">
-      <div class="hint-box">2つの分野を掛け合わせたお題で、意外な発想を鍛えましょう。</div>
-      <div class="cross-btns">
-        <button class="action" onclick="genCross('history','math')">歴史 × 数学</button>
-        <button class="action" onclick="genCross('history','story')">歴史 × 物語</button>
-        <button class="action" onclick="genCross('math','story')">数学 × 物語</button>
-        <button class="action primary" onclick="genCross('rand','rand')">ランダム</button>
-      </div>
-      <div class="label">クロスオーバーお題</div>
-      <div class="prompt-box" id="cross-prompt">上のボタンを押して生成してください</div>
-      <div class="hint-box" id="cross-hint"></div>
-      <textarea id="cross-input" placeholder="このお題でアイデアを書いてみましょう..."></textarea>
-      <div class="btn-row">
-        <button class="action primary" onclick="saveCross()">ストックに保存</button>
-      </div>
-      <div class="saved-notice" id="cross-save-notice">ストックに保存しました！</div>
-    </div>
-  </div>
+  <div class="tabs"><button class="tab-btn active" onclick="switchTab('practice')">練習モード</button><button class="tab-btn" onclick="switchTab('stock')">アイデアストック</button><button class="tab-btn" onclick="switchTab('cross')">クロスオーバー</button></div>
+  <div id="panel-practice" class="panel active"><div class="card">
+    <div class="field-tabs" id="field-tabs"></div><div class="label">今日のお題</div><div class="prompt-box" id="prompt-text">分野を選ぶとお題が表示されます</div><div class="hint-box" id="hint-text">上のボタンで分野を選んでください。</div>
+    <div class="timer-row"><div><div class="label">タイマー</div><div class="timer-num" id="timer-disp">5:00</div></div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;"><button class="action" id="timer-btn" onclick="toggleTimer()">スタート</button><select onchange="setDuration(this.value)"><option value="300">5分</option><option value="180">3分</option><option value="600">10分</option></select></div></div>
+    <div class="form-grid"><div><div class="label">タイトル</div><input id="idea-title" type="text" placeholder="例：江戸版タスク管理アプリ"></div><div><div class="label">タグ（カンマ区切り）</div><input id="idea-tags" type="text" placeholder="例：教育, アプリ, 習慣"></div></div>
+    <div class="label">アイデアを書く</div><textarea id="idea-input" placeholder="思いついたことを自由に書いてください。良し悪しは気にせずどんどん書きましょう！"></textarea><div class="count" id="char-count">0文字</div>
+    <div class="form-grid"><div><div class="label">使い道</div><input id="idea-use-case" type="text" placeholder="このアイデアを使えそうな場面"></div><div><div class="label">次に見るもの</div><input id="idea-next-action" type="text" placeholder="調べる本・URL・人・具体的な次の行動"></div></div>
+    <div class="form-row"><div class="label">評価</div><select id="idea-rating"><option value="3">★★★☆☆</option><option value="1">★☆☆☆☆</option><option value="2">★★☆☆☆</option><option value="4">★★★★☆</option><option value="5">★★★★★</option></select></div>
+    <div class="btn-row"><button class="action" onclick="generatePrompt()">お題を変える</button><button class="action primary" onclick="saveIdea()">ストックに保存</button></div><div class="saved-notice" id="save-notice">ストックに保存しました！</div>
+  </div></div>
+  <div id="panel-stock" class="panel"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;"><div class="label" id="stock-count" style="margin:0;">0件</div><div id="stock-filters" style="display:flex;gap:4px;flex-wrap:wrap;"></div></div><div id="stock-list"><div class="empty">まだアイデアがありません。<br>練習モードで保存してみましょう。</div></div></div><div class="btn-row"><button class="action" onclick="exportStock()">テキストでエクスポート</button><button class="action" onclick="exportJson()">JSONでエクスポート</button><button class="action danger" onclick="clearStock()">ストックを消去</button></div></div>
+  <div id="panel-cross" class="panel"><div class="card"><div class="hint-box">複数の分野を掛け合わせたお題で、意外な発想を鍛えましょう。</div><div class="cross-btns"><button class="action" onclick="genCross('history','math')">歴史 × 数学</button><button class="action" onclick="genCross('history','story')">歴史 × 物語</button><button class="action" onclick="genCross('math','story')">数学 × 物語</button><button class="action" onclick="genCross('work','society')">仕事改善 × 社会分析</button><button class="action" onclick="genCross('values','story')">違和感 × 物語</button><button class="action primary" onclick="genCross('rand','rand')">ランダム</button></div><div class="label">クロスオーバーお題</div><div class="prompt-box" id="cross-prompt">上のボタンを押して生成してください</div><div class="hint-box" id="cross-hint"></div><div class="form-grid"><div><div class="label">タイトル</div><input id="cross-title" type="text" placeholder="カードのタイトル"></div><div><div class="label">タグ（カンマ区切り）</div><input id="cross-tags" type="text" placeholder="掛け合わせ, 仮説"></div></div><textarea id="cross-input" placeholder="このお題でアイデアを書いてみましょう..."></textarea><div class="form-grid"><div><div class="label">使い道</div><input id="cross-use-case" type="text"></div><div><div class="label">次に見るもの</div><input id="cross-next-action" type="text"></div></div><div class="form-row"><div class="label">評価</div><select id="cross-rating"><option value="3">★★★☆☆</option><option value="1">★☆☆☆☆</option><option value="2">★★☆☆☆</option><option value="4">★★★★☆</option><option value="5">★★★★★</option></select></div><div class="btn-row"><button class="action primary" onclick="saveCross()">ストックに保存</button></div><div class="saved-notice" id="cross-save-notice">ストックに保存しました！</div></div></div>
 </div>
-
 <script>
-const P = {
-  history: [
-    { text:"もし織田信長がSNSを使えたら？", hint:"現代のメディアと歴史的人物の価値観を掛け合わせてみましょう。" },
-    { text:"江戸時代の「働き方改革」を考えるとしたら？", hint:"当時の社会構造から現代への応用アイデアを探しましょう。" },
-    { text:"ペリー来航がなかったら日本はどうなっていた？", hint:"分岐点から先の可能性を複数挙げてみましょう。" },
-    { text:"古代ローマの「道路網」から学べるビジネスアイデアは？", hint:"インフラの概念を別ジャンルに応用してみましょう。" },
-    { text:"歴史上の失敗から生まれた発明・発見を3つ考えよう", hint:"失敗＝資産という視点でアイデアを展開しましょう。" },
-    { text:"明治維新を「スタートアップ」として分析すると？", hint:"経営・組織・変革のキーワードで歴史を読み直しましょう。" },
-  ],
-  math: [
-    { text:"日常生活の中で「フィボナッチ数列」を見つけよう", hint:"自然・建築・デザインなど複数の領域から探してみましょう。" },
-    { text:"「1%の改善を365日続けると？」を物語にする", hint:"複利の概念を人間の成長に当てはめてみましょう。" },
-    { text:"通勤時間を確率論で最適化するアイデアを出そう", hint:"変数（電車・天気・混雑）を整理して考えましょう。" },
-    { text:"「80対20の法則」を使って仕事を効率化する方法は？", hint:"あなたの職場の20%が80%の成果を生む部分はどこ？" },
-    { text:"統計のウソを見抜くための習慣を考えよう", hint:"平均・中央値・外れ値など基本概念から考えてみましょう。" },
-    { text:"人生の意思決定に「期待値」を使うとしたら？", hint:"リスクとリターンをどう数値化するか考えましょう。" },
-  ],
-  story: [
-    { text:"「最初の一行」だけ書く：見知らぬ場所で目が覚めた主人公", hint:"読者を引き込む最初の一文に集中。設定より感情が先。" },
-    { text:"あなたの通勤ルートを「英雄の旅」として再解釈する", hint:"日常の中の障害・助力者・変容を見つけましょう。" },
-    { text:"対立する2人のキャラクターが共通点を発見する場面を書く", hint:"葛藤→発見→変化という構造を意識して書きましょう。" },
-    { text:"物の視点（椅子・スマホ・財布）から一日を語る", hint:"視点を変えると新しい物語が生まれます。" },
-    { text:"3つの無関係な言葉を使って短い話を作ろう（傘・地図・音楽）", hint:"制約があるほど創造性は刺激されます。" },
-    { text:"結末から始まる物語の冒頭を書いてみよう", hint:"「こうして私は〇〇になった」という文から逆算して構造を考えましょう。" },
-  ]
-};
-const CP = {
-  'history-math': [
-    { text:"モンゴル帝国の領土拡大速度を数式で表すと何がわかる？", hint:"地理・時間・人口を変数として面白い法則を探しましょう。" },
-    { text:"江戸幕府の財政赤字を現代の経済指標で分析するとどうなる？", hint:"歴史の数字を現代の文脈に置き換えてみましょう。" },
-  ],
-  'history-story': [
-    { text:"坂本龍馬が現代のベンチャー企業を立ち上げたら？", hint:"当時の志・方法論を現代に翻訳してみましょう。" },
-    { text:"歴史上の転換点で「もし別の選択をしたら」という短編を書く", hint:"感情と論理の両方から人物の決断を描きましょう。" },
-  ],
-  'math-story': [
-    { text:"素数の孤独をテーマにした詩または短編を書く", hint:"数学的概念を人間の感情メタファーとして使いましょう。" },
-    { text:"「確率50%の選択」を繰り返す主人公の人生を描く", hint:"ランダム性と意志の関係を物語で表現しましょう。" },
-  ]
-};
-
-let field = 'history', curP = null;
-let dur = 300, rem = 300, running = false, iv = null;
-let audioCtx = null;
-let stock = JSON.parse(localStorage.getItem('idea_stock') || '[]');
-let sf = 'all';
-
-function rand(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function switchTab(t) {
-  ['practice','stock','cross'].forEach(p => {
-    document.getElementById('panel-'+p).classList.toggle('active', p===t);
-  });
-  document.querySelectorAll('.tabs .tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['practice','stock','cross'][i]===t);
-  });
-  if(t==='stock') renderStock();
-}
-
-function setField(f) {
-  field = f;
-  ['h','m','s'].forEach(x => document.getElementById('btn-'+x).classList.remove('active'));
-  document.getElementById('btn-'+(f==='history'?'h':f==='math'?'m':'s')).classList.add('active');
-  generatePrompt();
-}
-
-function generatePrompt() {
-  curP = rand(P[field]);
-  document.getElementById('prompt-text').textContent = curP.text;
-  document.getElementById('hint-text').textContent = curP.hint;
-  document.getElementById('idea-input').value = '';
-  document.getElementById('char-count').textContent = '0文字';
-}
-
-document.getElementById('idea-input').addEventListener('input', function() {
-  document.getElementById('char-count').textContent = this.value.length+'文字';
-});
-
-function getAudioContext() {
-  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-  if(!AudioContextClass) return null;
-  if(!audioCtx) audioCtx = new AudioContextClass();
-  return audioCtx;
-}
-
-function prepareTimerAudio() {
-  const ctx = getAudioContext();
-  if(!ctx) return;
-  if(ctx.state === 'suspended') ctx.resume();
-
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  gain.gain.setValueAtTime(0, ctx.currentTime);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.01);
-}
-
-function playTimerSound() {
-  const ctx = getAudioContext();
-  if(!ctx) return;
-  if(ctx.state === 'suspended') ctx.resume();
-
-  const now = ctx.currentTime + 0.02;
-  [0, 0.18, 0.36].forEach(offset => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const start = now + offset;
-    const end = start + 0.1;
-
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(880, start);
-    gain.gain.setValueAtTime(0, start);
-    gain.gain.linearRampToValueAtTime(0.18, start + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.001, end);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(start);
-    osc.stop(end);
-  });
-}
-
-function setDuration(v) {
-  dur = parseInt(v); rem = dur; running = false;
-  clearInterval(iv);
-  document.getElementById('timer-btn').textContent = 'スタート';
-  document.getElementById('timer-disp').className = 'timer-num';
-  updateDisp();
-}
-
-function toggleTimer() {
-  if(running) {
-    clearInterval(iv); running = false;
-    document.getElementById('timer-btn').textContent = 'スタート';
-    document.getElementById('timer-disp').className = 'timer-num';
-  } else {
-    prepareTimerAudio();
-    if(rem <= 0) rem = dur;
-    running = true;
-    document.getElementById('timer-btn').textContent = '停止';
-    document.getElementById('timer-disp').className = 'timer-num running';
-    iv = setInterval(() => {
-      rem--;
-      updateDisp();
-      if(rem <= 0) {
-        clearInterval(iv); running = false;
-        document.getElementById('timer-btn').textContent = 'スタート';
-        document.getElementById('timer-disp').className = 'timer-num';
-        rem = 0;
-        playTimerSound();
-        if(navigator.vibrate) navigator.vibrate([200,100,200]);
-      }
-    }, 1000);
-  }
-}
-
-function updateDisp() {
-  const m = Math.floor(rem/60), s = rem%60;
-  document.getElementById('timer-disp').textContent = m+':'+(s<10?'0':'')+s;
-}
-
-function showNotice(id) {
-  const el = document.getElementById(id);
-  el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 2000);
-}
-
-function saveIdea() {
-  const text = document.getElementById('idea-input').value.trim();
-  if(!text) { alert('アイデアを入力してください'); return; }
-  stock.push({ field, prompt: curP ? curP.text : '', text, date: new Date().toLocaleDateString('ja-JP') });
-  localStorage.setItem('idea_stock', JSON.stringify(stock));
-  document.getElementById('idea-input').value = '';
-  document.getElementById('char-count').textContent = '0文字';
-  showNotice('save-notice');
-}
-
-function saveCross() {
-  const text = document.getElementById('cross-input').value.trim();
-  if(!text) { alert('アイデアを入力してください'); return; }
-  const prompt = document.getElementById('cross-prompt').textContent;
-  stock.push({ field:'cross', prompt, text, date: new Date().toLocaleDateString('ja-JP') });
-  localStorage.setItem('idea_stock', JSON.stringify(stock));
-  document.getElementById('cross-input').value = '';
-  showNotice('cross-save-notice');
-}
-
-function filterStock(f) {
-  sf = f;
-  ['all','h','m','s','c'].forEach(x => document.getElementById('sf-'+x).classList.remove('active'));
-  document.getElementById('sf-'+(f==='all'?'all':f==='history'?'h':f==='math'?'m':f==='cross'?'c':'s')).classList.add('active');
-  renderStock();
-}
-
-function renderStock() {
-  const list = sf==='all' ? stock : stock.filter(s=>s.field===sf);
-  document.getElementById('stock-count').textContent = list.length+'件保存済み';
-  const el = document.getElementById('stock-list');
-  if(!list.length) { el.innerHTML='<div class="empty">まだアイデアがありません。<br>練習モードで保存してみましょう。</div>'; return; }
-  el.innerHTML = list.slice().reverse().map(s => {
-    const b = s.field==='history'?'<span class="badge badge-h">歴史</span>':s.field==='math'?'<span class="badge badge-m">数学</span>':s.field==='cross'?'<span class="badge badge-c">クロス</span>':'<span class="badge badge-s">物語</span>';
-    return '<div class="stock-item">'+b+'<div class="stock-item-text">'+esc(s.text)+'</div><div class="stock-meta">お題：'+esc(s.prompt)+' · '+s.date+'</div></div>';
-  }).join('');
-}
-
-function exportStock() {
-  if(!stock.length) { alert('保存されたアイデアがありません'); return; }
-  const txt = stock.map(s=>'['+s.field+'] '+s.date+'\nお題：'+s.prompt+'\n'+s.text).join('\n\n---\n\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
-  a.download = 'ideas_'+new Date().toISOString().slice(0,10)+'.txt';
-  a.click();
-}
-
-function clearStock() {
-  if(!confirm('全てのアイデアを削除しますか？')) return;
-  stock = [];
-  localStorage.setItem('idea_stock', JSON.stringify(stock));
-  renderStock();
-}
-
-function genCross(a, b) {
-  const keys = Object.keys(CP);
-  const key = (a==='rand') ? rand(keys) : a+'-'+b;
-  const p = rand(CP[key]);
-  document.getElementById('cross-prompt').textContent = p.text;
-  document.getElementById('cross-hint').textContent = p.hint;
-  document.getElementById('cross-input').value = '';
-}
-
-generatePrompt();
+const FIELDS={history:'歴史',math:'数学',story:'物語',work:'仕事改善',society:'社会分析',values:'違和感・価値観',cross:'クロス'};
+const P={
+history:[['もし織田信長がSNSを使えたら？','現代のメディアと歴史的人物の価値観を掛け合わせてみましょう。'],['江戸時代の「働き方改革」を考えるとしたら？','当時の社会構造から現代への応用アイデアを探しましょう。'],['ペリー来航がなかったら日本はどうなっていた？','分岐点から先の可能性を複数挙げてみましょう。'],['古代ローマの「道路網」から学べるビジネスアイデアは？','インフラの概念を別ジャンルに応用してみましょう。'],['歴史上の失敗から生まれた発明・発見を3つ考えよう','失敗＝資産という視点でアイデアを展開しましょう。'],['明治維新を「スタートアップ」として分析すると？','経営・組織・変革のキーワードで歴史を読み直しましょう。'],['奈良時代の都づくりを現代の都市計画に応用すると？','交通・情報・安全の設計を比べましょう。'],['戦国武将の同盟戦略をチーム運営に置き換える','利害調整と信頼形成に注目しましょう。'],['産業革命が地方の小さな町に起きたら？','技術変化の光と影を考えましょう。'],['遣唐使を現代の留学制度として再設計する','知識移転の仕組みに注目しましょう。'],['大航海時代の地図づくりから学ぶ情報整理術','未知をどう記録するか考えましょう。'],['江戸の寺子屋をオンライン学習に変えるなら？','学びの場と継続の仕掛けを考えましょう。'],['古代エジプトのピラミッド建設をプロジェクト管理で見る','役割・工程・動機づけを分解しましょう。'],['平安貴族の日記文化を現代のSNSに活かす','記録が人間関係をどう変えるか考えましょう。'],['冷戦を学校のクラス内の関係にたとえる','緊張緩和と情報戦を身近に翻訳しましょう。'],['縄文時代の暮らしからサステナブルな商品を考える','循環と共同体に注目しましょう。'],['参勤交代を現代企業の人材交流制度にすると？','移動のコストと効果を考えましょう。'],['ルネサンスの工房制度から創作コミュニティを設計する','師弟関係と実践学習を扱いましょう。'],['幕末の情報伝達をスマホなしで速くする方法','制約下の通信アイデアを出しましょう。'],['万里の長城をデジタルセキュリティに例える','守るべき境界と弱点を考えましょう。']],
+math:[['日常生活の中で「フィボナッチ数列」を見つけよう','自然・建築・デザインなど複数の領域から探してみましょう。'],['「1%の改善を365日続けると？」を物語にする','複利の概念を人間の成長に当てはめてみましょう。'],['通勤時間を確率論で最適化するアイデアを出そう','変数を整理して考えましょう。'],['「80対20の法則」を使って仕事を効率化する方法は？','成果を生む20%はどこでしょう。'],['統計のウソを見抜くための習慣を考えよう','平均・中央値・外れ値から考えましょう。'],['人生の意思決定に「期待値」を使うとしたら？','リスクとリターンを数値化しましょう。'],['買い物の満足度を関数で表す','価格以外の変数を考えましょう。'],['待ち行列理論でカフェの行列を短くする','入口から提供までを観察しましょう。'],['幾何学で机の上を美しく整理する','形と余白を使いましょう。'],['ゲームのレベル設計を指数関数で考える','成長曲線の気持ちよさを考えましょう。'],['割引とポイント還元のどちらが得か説明する方法','比較の軸をそろえましょう。'],['ベイズ思考で噂の信頼度を判断する','事前確率と新情報を分けましょう。'],['グラフ理論で人脈を広げる作戦を考える','ノードと橋渡し役に注目しましょう。'],['最小公倍数で家事スケジュールを作る','周期の重なりを使いましょう。'],['微分を使って集中力の落ち始めを見つける','変化率に注目しましょう。'],['円周率を使った記憶術を考える','無意味な数字を物語化しましょう。'],['最短経路問題で休日の予定を組む','移動と満足のバランスを取りましょう。'],['相関と因果を見分ける質問を5つ作る','データの読み間違いを防ぎましょう。'],['フラクタル構造を組織づくりに応用する','小さな型の反復を考えましょう。'],['制約条件つきで最高の朝時間を設計する','時間・体力・気分を条件にしましょう。']],
+story:[['「最初の一行」だけ書く：見知らぬ場所で目が覚めた主人公','読者を引き込む最初の一文に集中しましょう。'],['あなたの通勤ルートを「英雄の旅」として再解釈する','日常の障害・助力者・変容を見つけましょう。'],['対立する2人が共通点を発見する場面を書く','葛藤→発見→変化を意識しましょう。'],['物の視点から一日を語る','視点を変えると新しい物語が生まれます。'],['3つの言葉で短い話を作る（傘・地図・音楽）','制約が創造性を刺激します。'],['結末から始まる物語の冒頭を書く','逆算して構造を考えましょう。'],['主人公が嘘をつく理由を3つ考える','弱さと欲望を掘り下げましょう。'],['雨の日だけ開く店の設定を作る','ルールが世界観を作ります。'],['未来から届いたメモを一文だけ書く','情報量を絞りましょう。'],['悪役の正義を説明する独白を書く','相手の論理を立てましょう。'],['同じ出来事を子どもと老人の視点で書く','経験差を表現しましょう。'],['声を失った主人公の伝え方を考える','言葉以外の表現に注目しましょう。'],['秘密を持つ町の観光パンフレットを作る','表と裏のギャップを使いましょう。'],['昨日捨てたものが戻ってくる話','反復に意味を持たせましょう。'],['5分後に消える友人との会話を書く','時間制限で感情を強めましょう。'],['誰も怒らない世界の問題を考える','感情の役割を問い直しましょう。'],['古い写真に写る知らない自分を書く','謎と自己認識を扱いましょう。'],['主人公の欠点が世界を救う展開','短所の反転を考えましょう。'],['説明禁止で魔法を描写する','行動と反応だけで伝えましょう。'],['最後の一文だけ先に決めて短編を作る','終着点から道筋を作りましょう。']],
+work:[['会議を半分に減らす仕組みを考える','目的・参加者・記録を見直しましょう。'],['引き継ぎミスをなくすカードを作る','チェック項目を明確にしましょう。'],['朝一番の迷いを減らす仕事術','開始条件を固定しましょう。'],['新人が質問しやすい環境を設計する','心理的安全性に注目しましょう。'],['定例報告を読む価値のある形に変える','読者の意思決定を助けましょう。'],['メール返信を速くするテンプレート','判断を減らしましょう。'],['属人化している作業を見える化する','手順と例外を分けましょう。'],['忙しさを測る指標を作る','量と負荷を分けましょう。'],['失敗共有を前向きにする方法','責めない構造を作りましょう。'],['リモート雑談を自然に生む仕掛け','偶然性を設計しましょう。'],['作業の待ち時間を短くする改善案','ボトルネックを探しましょう。'],['上司への相談を1枚にまとめる形式','論点と選択肢を整理しましょう。'],['集中を邪魔しない通知ルール','緊急度を分類しましょう。'],['小さな改善を続けるチーム儀式','負担の少ない反復を考えましょう。'],['顧客の声を開発に届ける流れ','翻訳役と頻度を設計しましょう。']],
+society:[['駅前の行列から社会の変化を読む','観察から仮説を立てましょう。'],['少子化を身近な生活習慣から分析する','制度と感情の両方を見ましょう。'],['地域の空き家を資源に変える案','所有と利用を分けましょう。'],['流行語が生まれる条件を考える','拡散の経路に注目しましょう。'],['キャッシュレス化で失われるものは？','便利さの副作用を見ましょう。'],['学校の校則を社会契約として見直す','誰を守るルールか考えましょう。'],['観光地の混雑を分散する方法','インセンティブを設計しましょう。'],['高齢者の孤立を減らす小さな制度','接点の頻度を考えましょう。'],['デマが広がる心理を分析する','不安と所属に注目しましょう。'],['公共トイレから街の包摂性を考える','見えない利用者を想像しましょう。'],['物価上昇が家族の会話をどう変えるか','数字と感情をつなぎましょう。'],['推し活を経済活動として分析する','価値交換を見つけましょう。'],['災害時に情報弱者を減らす案','媒体と信頼を考えましょう。'],['自転車マナー問題の構造を分解する','ルール・空間・教育を分けましょう。'],['公園の使われ方から地域を読む','時間帯ごとの利用者を想像しましょう。']],
+values:[['最近感じた小さな違和感を言語化する','何が期待と違ったかを掘り下げましょう。'],['「普通」と言われていることを1つ疑う','誰にとって普通か考えましょう。'],['お金を払ってでも避けたいことは？','価値観の輪郭を見つけましょう。'],['褒められても嬉しくないことを考える','自分の基準を探しましょう。'],['時間を忘れる行動に共通する価値','集中の源を探りましょう。'],['嫌いな言葉を1つ選んで理由を書く','反応の奥にある経験を見ましょう。'],['便利なのに使いたくないものは？','効率以外の価値を考えましょう。'],['人に説明しにくいこだわりをカード化する','具体例から抽象化しましょう。'],['昔は好きだったが今は違うもの','変化した価値観を見つけましょう。'],['理想の一日から譲れない条件を抜き出す','行動から価値を読む練習です。'],['怒りを感じたニュースの論点を分ける','事実・解釈・価値を分離しましょう。'],['「もったいない」と感じる瞬間を集める','資源観を見つけましょう。'],['自分だけの成功の定義を作る','他人の物差しを外しましょう。'],['選ばなかった道に残る未練を扱う','未練も情報として使いましょう。'],['心地よい距離感を設計する','関係性の境界を考えましょう。']]};
+Object.keys(P).forEach(k=>P[k]=P[k].map(x=>({text:x[0],hint:x[1]})));
+const CP={};['history-math','history-story','math-story','work-society','values-story'].forEach(k=>CP[k]=[]);
+const crossTexts=['歴史上の制度を数式モデルにして現代の問題へ応用する','古い物語を現代の職場課題として書き換える','確率で分岐する昔話の企画を作る','仕事のムダを社会現象として説明する','違和感を主人公の旅に変える','数学の概念で価値観のズレを説明する','歴史人物が現代の炎上に対応する作戦','地域課題をゲームのルールとして再設計する','江戸の商人と現代SaaSを比較する','統計の読み違いから始まる短編','会議を儀式として人類学的に観察する','昔の教育制度をAI時代に移植する','物語の伏線を業務改善の見える化に使う','社会の不安を天気予報のように伝える','ピラミッド建設をリモートワークで行うなら','違和感メモを数学的に分類する','昔話の教訓を現代の校則にする','人脈ネットワークを戦国地図で表す','仕事の優先順位を冒険地図にする','価値観の対立を交渉ゲームにする','災害時の行動を物語構造で伝える','職場の暗黙知を考古学する','推し活を経済モデルと物語で説明する','古代都市の広場をオンラインコミュニティにする','平均との差が個性になる物語','社会問題を一人称日記で描く','違和感を商品企画の種に変える','歴史の失敗をチェックリスト化する','数学パズルでチームの対話を促す','未来の教科書に載る今日の小さな変化'];
+crossTexts.forEach((t,i)=>{const keys=Object.keys(CP);CP[keys[i%keys.length]].push({text:t,hint:'2つ以上の視点を行き来し、具体的なカードに落としましょう。'});});
+let field='history',curP=null,dur=300,rem=300,running=false,iv=null,audioCtx=null,sf='all';
+let stock=migrateStock(JSON.parse(localStorage.getItem('idea_stock')||'[]'));
+function rand(a){return a[Math.floor(Math.random()*a.length)];} function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function stars(n){return '★★★★★☆☆☆☆☆'.slice(5-(+n||0),10-(+n||0));} function tags(v){return Array.isArray(v)?v:String(v||'').split(',').map(t=>t.trim()).filter(Boolean);}
+function today(){return new Date().toLocaleDateString('ja-JP');}
+function migrateStock(items){return (Array.isArray(items)?items:[]).map((s,i)=>({id:s.id||Date.now()+'-'+i,title:s.title||((s.text||s.idea)?String(s.text||s.idea).slice(0,24):'無題のアイデア'),prompt:s.prompt||'',idea:s.idea||s.text||'',category:s.category||s.field||'history',tags:tags(s.tags),useCase:s.useCase||'',nextAction:s.nextAction||'',rating:s.rating||3,date:s.date||today()}));}
+function persist(){localStorage.setItem('idea_stock',JSON.stringify(stock));}
+function initButtons(){document.getElementById('field-tabs').innerHTML=['history','math','story','work','society','values'].map(k=>`<button class="tab-btn ${k===field?'active':''}" id="btn-${k}" onclick="setField('${k}')">${FIELDS[k]}</button>`).join('');document.getElementById('stock-filters').innerHTML=['all','history','math','story','work','society','values','cross'].map(k=>`<button class="tab-btn ${k===sf?'active':''}" id="sf-${k}" onclick="filterStock('${k}')">${k==='all'?'すべて':FIELDS[k]}</button>`).join('');}
+function switchTab(t){['practice','stock','cross'].forEach(p=>document.getElementById('panel-'+p).classList.toggle('active',p===t));document.querySelectorAll('.tabs .tab-btn').forEach((b,i)=>b.classList.toggle('active',['practice','stock','cross'][i]===t));if(t==='stock')renderStock();}
+function setField(f){field=f;initButtons();generatePrompt();} function generatePrompt(){curP=rand(P[field]);document.getElementById('prompt-text').textContent=curP.text;document.getElementById('hint-text').textContent=curP.hint;document.getElementById('idea-input').value='';document.getElementById('char-count').textContent='0文字';}
+document.getElementById('idea-input').addEventListener('input',function(){document.getElementById('char-count').textContent=this.value.length+'文字';});
+function getAudioContext(){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;if(!audioCtx)audioCtx=new C();return audioCtx;} function prepareTimerAudio(){const c=getAudioContext();if(!c)return;if(c.state==='suspended')c.resume();const o=c.createOscillator(),g=c.createGain();g.gain.setValueAtTime(0,c.currentTime);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.01);} function playTimerSound(){const c=getAudioContext();if(!c)return;if(c.state==='suspended')c.resume();[0,.18,.36].forEach(off=>{const o=c.createOscillator(),g=c.createGain(),st=c.currentTime+.02+off,en=st+.1;o.type='square';o.frequency.setValueAtTime(880,st);g.gain.setValueAtTime(0,st);g.gain.linearRampToValueAtTime(.18,st+.01);g.gain.exponentialRampToValueAtTime(.001,en);o.connect(g);g.connect(c.destination);o.start(st);o.stop(en);});}
+function setDuration(v){dur=parseInt(v);rem=dur;running=false;clearInterval(iv);document.getElementById('timer-btn').textContent='スタート';document.getElementById('timer-disp').className='timer-num';updateDisp();} function toggleTimer(){if(running){clearInterval(iv);running=false;document.getElementById('timer-btn').textContent='スタート';document.getElementById('timer-disp').className='timer-num';}else{prepareTimerAudio();if(rem<=0)rem=dur;running=true;document.getElementById('timer-btn').textContent='停止';document.getElementById('timer-disp').className='timer-num running';iv=setInterval(()=>{rem--;updateDisp();if(rem<=0){clearInterval(iv);running=false;document.getElementById('timer-btn').textContent='スタート';document.getElementById('timer-disp').className='timer-num';rem=0;playTimerSound();if(navigator.vibrate)navigator.vibrate([200,100,200]);}},1000);}} function updateDisp(){const m=Math.floor(rem/60),s=rem%60;document.getElementById('timer-disp').textContent=m+':'+(s<10?'0':'')+s;}
+function showNotice(id){const el=document.getElementById(id);el.style.display='block';setTimeout(()=>el.style.display='none',2000);} function cardFrom(prefix,category,prompt){return{id:Date.now()+'-'+Math.random().toString(36).slice(2),title:document.getElementById(prefix+'-title').value.trim()||prompt.slice(0,28),prompt,idea:document.getElementById(prefix+'-input').value.trim(),category,tags:tags(document.getElementById(prefix+'-tags').value),useCase:document.getElementById(prefix+'-use-case').value.trim(),nextAction:document.getElementById(prefix+'-next-action').value.trim(),rating:document.getElementById(prefix+'-rating').value,date:today()};}
+function clearForm(prefix){[prefix+'-title',prefix+'-tags',prefix+'-input',prefix+'-use-case',prefix+'-next-action'].forEach(id=>document.getElementById(id).value='');}
+function saveIdea(){const c=cardFrom('idea',field,curP?curP.text:'');if(!c.idea){alert('アイデアを入力してください');return;}stock.push(c);persist();clearForm('idea');document.getElementById('char-count').textContent='0文字';showNotice('save-notice');}
+function saveCross(){const prompt=document.getElementById('cross-prompt').textContent;if(prompt==='上のボタンを押して生成してください'){alert('先にお題を生成してください');return;}const c=cardFrom('cross','cross',prompt);if(!c.idea){alert('アイデアを入力してください');return;}stock.push(c);persist();clearForm('cross');showNotice('cross-save-notice');}
+function filterStock(f){sf=f;initButtons();renderStock();}
+function badge(c){return `<span class="badge badge-${c}">${FIELDS[c]||c}</span>`;}
+function renderStock(){const list=(sf==='all'?stock:stock.filter(s=>s.category===sf));document.getElementById('stock-count').textContent=list.length+'件保存済み';const el=document.getElementById('stock-list');if(!list.length){el.innerHTML='<div class="empty">まだアイデアがありません。<br>練習モードで保存してみましょう。</div>';return;}el.innerHTML='<div class="stock-grid">'+list.slice().reverse().map(s=>`<div class="stock-item"><div class="stock-head"><div><div class="stock-title">${esc(s.title)}</div><div>${badge(s.category)} ${tags(s.tags).map(t=>`<span class="tag">#${esc(t)}</span>`).join('')}</div></div><div class="btn-row" style="margin-top:0;"><button class="action" onclick="editCard('${s.id}')">編集</button><button class="action danger" onclick="deleteCard('${s.id}')">削除</button></div></div><div class="stock-meta">お題：${esc(s.prompt)}</div><div class="stock-item-text">${esc(s.idea)}</div><div class="stock-meta">使い道：${esc(s.useCase||'未設定')}<br>次に見るもの：${esc(s.nextAction||'未設定')}<br>日付：${esc(s.date)}　評価：${stars(s.rating)}</div></div>`).join('')+'</div>';}
+function deleteCard(id){if(!confirm('このカードを削除しますか？'))return;stock=stock.filter(s=>s.id!==id);persist();renderStock();}
+function editCard(id){const s=stock.find(x=>x.id===id);if(!s)return;const title=prompt('タイトル',s.title);if(title===null)return;const idea=prompt('アイデア本文',s.idea);if(idea===null)return;const tagText=prompt('タグ（カンマ区切り）',tags(s.tags).join(', '));if(tagText===null)return;const next=prompt('次に見るもの',s.nextAction||'');if(next===null)return;const useCase=prompt('使い道',s.useCase||'');if(useCase===null)return;const rating=prompt('評価（1〜5）',s.rating||3);if(rating===null)return;Object.assign(s,{title:title.trim()||'無題のアイデア',idea:idea.trim(),tags:tags(tagText),nextAction:next.trim(),useCase:useCase.trim(),rating:Math.min(5,Math.max(1,parseInt(rating)||3))});persist();renderStock();}
+function exportStock(){if(!stock.length){alert('保存されたアイデアがありません');return;}const txt=stock.map(s=>`[${FIELDS[s.category]||s.category}] ${s.date} ${stars(s.rating)}\nタイトル：${s.title}\nタグ：${tags(s.tags).join(', ')}\nお題：${s.prompt}\nアイデア：${s.idea}\n使い道：${s.useCase}\n次に見るもの：${s.nextAction}`).join('\n\n---\n\n');download('ideas_'+new Date().toISOString().slice(0,10)+'.txt','text/plain',txt);} function exportJson(){if(!stock.length){alert('保存されたアイデアがありません');return;}download('ideas_'+new Date().toISOString().slice(0,10)+'.json','application/json',JSON.stringify(stock,null,2));} function download(name,type,body){const a=document.createElement('a');a.href='data:'+type+';charset=utf-8,'+encodeURIComponent(body);a.download=name;a.click();}
+function clearStock(){if(!confirm('全てのアイデアを削除しますか？'))return;stock=[];persist();renderStock();}
+function genCross(a,b){const keys=Object.keys(CP),key=a==='rand'?rand(keys):a+'-'+b,p=rand(CP[key]||CP[rand(keys)]);document.getElementById('cross-prompt').textContent=p.text;document.getElementById('cross-hint').textContent=p.hint;document.getElementById('cross-input').value='';}
+initButtons();persist();generatePrompt();
 </script>
 </body>
 </html>
