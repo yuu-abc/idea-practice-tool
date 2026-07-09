@@ -184,6 +184,7 @@ const CP = {
 
 let field = 'history', curP = null;
 let dur = 300, rem = 300, running = false, iv = null;
+let audioCtx = null;
 let stock = JSON.parse(localStorage.getItem('idea_stock') || '[]');
 let sf = 'all';
 
@@ -219,6 +220,52 @@ document.getElementById('idea-input').addEventListener('input', function() {
   document.getElementById('char-count').textContent = this.value.length+'文字';
 });
 
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if(!AudioContextClass) return null;
+  if(!audioCtx) audioCtx = new AudioContextClass();
+  return audioCtx;
+}
+
+function prepareTimerAudio() {
+  const ctx = getAudioContext();
+  if(!ctx) return;
+  if(ctx.state === 'suspended') ctx.resume();
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(0, ctx.currentTime);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.01);
+}
+
+function playTimerSound() {
+  const ctx = getAudioContext();
+  if(!ctx) return;
+  if(ctx.state === 'suspended') ctx.resume();
+
+  const now = ctx.currentTime + 0.02;
+  [0, 0.18, 0.36].forEach(offset => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const start = now + offset;
+    const end = start + 0.1;
+
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(880, start);
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.18, start + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, end);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(start);
+    osc.stop(end);
+  });
+}
+
 function setDuration(v) {
   dur = parseInt(v); rem = dur; running = false;
   clearInterval(iv);
@@ -233,6 +280,7 @@ function toggleTimer() {
     document.getElementById('timer-btn').textContent = 'スタート';
     document.getElementById('timer-disp').className = 'timer-num';
   } else {
+    prepareTimerAudio();
     if(rem <= 0) rem = dur;
     running = true;
     document.getElementById('timer-btn').textContent = '停止';
@@ -245,6 +293,7 @@ function toggleTimer() {
         document.getElementById('timer-btn').textContent = 'スタート';
         document.getElementById('timer-disp').className = 'timer-num';
         rem = 0;
+        playTimerSound();
         if(navigator.vibrate) navigator.vibrate([200,100,200]);
       }
     }, 1000);
